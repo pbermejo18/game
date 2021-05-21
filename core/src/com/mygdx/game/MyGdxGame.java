@@ -75,10 +75,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 			}
 
-			if (jugador.puntos >= 6){
+			if (jugador.puntos >= 10){
 				temporizadorNuevoEnemigo.frecuencia = 57;
 			}
-
 
 			if (enemigo.y < -enemigo.w) enemigosAEliminar.add(enemigo);
 		}

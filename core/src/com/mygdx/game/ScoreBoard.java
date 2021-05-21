@@ -28,11 +28,12 @@ public class ScoreBoard {
     }
 
     Texture background = new Texture("b.png");
-    char[] nombre = {'A', 'A','A'};  // 65:A -> 90:Z
-    int index = 0;  // 0=1a letra; 1=2a letra; 2=3a letra; 3=replay; 4=exit
+    char[] nombre = {'A', 'A','A'};
+    int index = 0;
     private boolean saved;
 
     List<Score> scoreList = new ArrayList<>();
+    List<Score> top = new ArrayList<>();
 
     int update(int puntos){
         if(index < 3 && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
@@ -72,6 +73,12 @@ public class ScoreBoard {
         if(index > 2 && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             if (index == 3) index = 4; else index = 3;
         }
+        if(index > 2 && Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            if (index == 3) index = 4; else index = 3;
+        }
+        if(index > 2 && Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            if (index == 3) index = 4; else index = 3;
+        }
 
         if(index > 2 && !saved) {
             guardarPuntuacion(puntos);
@@ -99,9 +106,9 @@ public class ScoreBoard {
         }else {
             font.draw(batch, "SCOREBOARD", 220, 400);
 
-            for (int i = 0; i < 5 && i < scoreList.size(); i++) {
-                font.draw(batch, scoreList.get(i).nombre, 200, 340 - i * 40);
-                font.draw(batch, "" + scoreList.get(i).puntuacion, 380, 340 - i * 40);
+            for (int i = 0; i < 5 && i < top.size(); i++) {
+                font.draw(batch, top.get(i).nombre, 200, 340 - i * 40);
+                font.draw(batch, "" + top.get(i).puntuacion, 380, 340 - i * 40);
             }
 
             if(index == 3) font.setColor(Color.RED);
@@ -140,6 +147,16 @@ public class ScoreBoard {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+        while(scoreList.size() > 0) {
+            int posMax = 0;
+            for (int i = 0; i < scoreList.size(); i++) {
+                if (scoreList.get(i).puntuacion > scoreList.get(posMax).puntuacion) {
+                    posMax = i;
+                }
+            }
+            top.add(scoreList.get(posMax));
+            scoreList.remove(posMax);
         }
     }
 }
