@@ -1,7 +1,9 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +22,8 @@ public class ScoreBoard {
     class Score {
         String nombre;
         int puntuacion;
+
+
 
         public Score(String nombre, int puntuacion) {
             this.nombre = nombre;

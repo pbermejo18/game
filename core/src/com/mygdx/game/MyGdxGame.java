@@ -1,15 +1,18 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.ArrayList;
 import java.util.List;
+import com.badlogic.gdx.Files.FileType;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+//import com.badlogic.gdx.graphics.GL10;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -23,6 +26,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	Temporizador temporizadorNuevoEnemigo;
 	ScoreBoard scoreboard;
 	boolean gameover;
+	private Music music;
+	private float volume = 0.5f;
+	private float volume2 = 70;
 
 
 	@Override
@@ -32,6 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.setColor(Color.WHITE);
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		font.getData().setScale(2f);
+
 
 		inicializarJuego();
 	}
@@ -54,16 +61,27 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if (temporizadorNuevoEnemigo.suena()) enemigos.add(new Alien());
 
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("disparo.mp3", Files.FileType.Internal));
+			music.setVolume(volume);
+			music.play();
+		}
+
 		if(!gameover) jugador.update();
 
 		for (Alien enemigo : enemigos) enemigo.update();
 
 		for (Alien enemigo : enemigos) {
 			for (Disparo disparo : jugador.disparos) {
+
 				if (Utils.solapan(disparo.x, disparo.y, disparo.w, disparo.h, enemigo.x, enemigo.y, enemigo.w, enemigo.h)) {
 					disparosAEliminar.add(disparo);
 					enemigosAEliminar.add(enemigo);
 					jugador.puntos++;
+
+					Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("impacto_disparo.mp3", Files.FileType.Internal));
+					music.setVolume(volume);
+					music.play();
 					break;
 				}
 			}
@@ -93,6 +111,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if(gameover) {
 			int result = scoreboard.update(jugador.puntos);
+
 			if(result == 1) {
 				inicializarJuego();
 			} else if (result == 2) {
