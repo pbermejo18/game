@@ -31,7 +31,7 @@ public class ScoreBoard {
         }
     }
 
-    Texture background = new Texture("b.png");
+    Texture background = new Texture("pantalla.png");
     char[] nombre = {'A', 'A','A'};
     int index = 0;
     private boolean saved;
@@ -92,10 +92,10 @@ public class ScoreBoard {
     }
 
     void render(SpriteBatch batch, BitmapFont font) {
-        batch.draw(background, 60, 120, 520, 320);
+        batch.draw(background, 60, 120, 520, 370);
 
         if(!saved) {
-            font.draw(batch, "ENTER YOUR NAME", 180, 400);
+            font.draw(batch, "ESCRIBE TU NOMBRE", 180, 400);
 
             font.getData().setScale(3);
             font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -108,7 +108,7 @@ public class ScoreBoard {
             }
             font.getData().setScale(2);
         }else {
-            font.draw(batch, "SCOREBOARD", 220, 400);
+            font.draw(batch, "PUNTUACIONES", 220, 400);
 
             for (int i = 0; i < 5 && i < top.size(); i++) {
                 font.draw(batch, top.get(i).nombre, 200, 340 - i * 40);
@@ -116,11 +116,11 @@ public class ScoreBoard {
             }
 
             if(index == 3) font.setColor(Color.RED);
-            font.draw(batch, "REPLAY", 180, 60);
+            font.draw(batch, "REINICIAR", 180, 60);
             font.setColor(Color.WHITE);
 
             if(index == 4) font.setColor(Color.RED);
-            font.draw(batch, "EXIT", 360, 60);
+            font.draw(batch, "SALIR", 360, 60);
             font.setColor(Color.WHITE);
         }
     }

@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-//import com.badlogic.gdx.graphics.GL10;
+
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -29,7 +30,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Music music;
 	private float volume = 0.5f;
 	private float volume2 = 70;
-
 
 	@Override
 	public void create() {
@@ -118,6 +118,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				Gdx.app.exit();
 			}
 		}
+
 	}
 
 	@Override
