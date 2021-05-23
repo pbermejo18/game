@@ -61,11 +61,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if (temporizadorNuevoEnemigo.suena()) enemigos.add(new Alien());
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+		/*if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("disparo.mp3", Files.FileType.Internal));
 			music.setVolume(volume);
 			music.play();
-		}
+		}*/
 
 		if(!gameover) jugador.update();
 
@@ -88,6 +88,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			if (!gameover && !jugador.muerto && Utils.solapan(enemigo.x, enemigo.y, enemigo.w, enemigo.h, jugador.x, jugador.y, jugador.w, jugador.h)) {
 				jugador.morir();
+				Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("impacto_nave.mp3", Files.FileType.Internal));
+				music.setVolume(volume);
+				music.play();
 				if (jugador.vidas == 0){
 					gameover = true;
 				}

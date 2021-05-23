@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Disparo {
     static Texture texture = new Texture("disparo.png");
     float x, y, w, h, v;
+    private float volume = 0.5f;
+
 
     Disparo(float xNave, float yNave) {
         w = 20;
@@ -16,6 +18,10 @@ public class Disparo {
         x = xNave-w/2;
         y = yNave;
         v = 12;
+        Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("disparo.mp3", Files.FileType.Internal));
+        music.setVolume(volume);
+        music.play();
+
     }
 
     void update() {

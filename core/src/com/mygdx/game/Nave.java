@@ -16,6 +16,16 @@ public class Nave {
             new Texture("nave4.png")
     );
 
+    Animacion navedaño = new Animacion( 16,
+            new Texture("nave_tocada.png"),
+            new Texture("nave2_tocada.png")
+    );
+
+    Animacion sinvidas = new Animacion( 16,
+            new Texture("nave_tocada.png"),
+            new Texture("nave_destruida.png")
+    );
+
     float x, y, w, h, v;
     List<Disparo> disparos = new ArrayList<>();
     int vidas = 3;
@@ -54,7 +64,13 @@ public class Nave {
     }
 
     void render(SpriteBatch batch) {
-        batch.draw(animacion.obtenerFrame(), x, y, w, h);
+        if (vidas == 0) {
+            batch.draw(sinvidas.obtenerFrame(), x, y, w, h);
+        } else if (muerto) {
+                batch.draw(navedaño.obtenerFrame(), x, y, w, h);
+        } else {
+            batch.draw(animacion.obtenerFrame(), x, y, w, h);
+        }
         for (Disparo disparo : disparos) disparo.render(batch);
     }
 
