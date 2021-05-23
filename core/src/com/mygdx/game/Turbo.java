@@ -3,12 +3,12 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Alien {
-    Texture texture = new Texture("alien.png");
+public class Turbo {
+    Texture texture = new Texture("turbo.png");
     float x, y, w, h, vx, vy;
     Temporizador cambioVelocidad = new Temporizador(60);
 
-    Alien() {
+    Turbo() {
         x = Utils.random.nextInt(640);
         y = 480;
         w = 64;
