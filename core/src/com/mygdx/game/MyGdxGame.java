@@ -21,12 +21,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	Fondo fondo;
 	Emoticonos emoticonos;
 	Nave jugador;
-	List<Turbo> turbos;
 	List<Alien> enemigos;
 	List<Disparo> disparosAEliminar;
 	List<Alien> enemigosAEliminar;
-	List<Turbo> turbosaeliminar;
+	List<Alien_2> enemigosAEliminar2;
+	List<Alien_2> enemigos2;
 	Temporizador temporizadorNuevoEnemigo;
+	Temporizador temporizadorNuevoEnemigo2;
 	Temporizador temporizadorTurbo;
 	ScoreBoard scoreboard;
 	boolean gameover;
@@ -50,13 +51,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		fondo = new Fondo();
 		jugador = new Nave();
 		emoticonos = new Emoticonos();
-		turbos = new ArrayList<>();
 		enemigos = new ArrayList<>();
+		enemigos2 = new ArrayList<>();
 		temporizadorNuevoEnemigo = new Temporizador(120);
+		temporizadorNuevoEnemigo2 = new Temporizador(280);
 		temporizadorTurbo = new Temporizador(120);
 		disparosAEliminar = new ArrayList<>();
 		enemigosAEliminar = new ArrayList<>();
-		turbosaeliminar = new ArrayList<>();
+		enemigosAEliminar2 = new ArrayList<>();
 		scoreboard = new ScoreBoard();
 
 		gameover = false;
@@ -103,42 +105,42 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (enemigo.y < -enemigo.w) enemigosAEliminar.add(enemigo);
 		}
 
-		if (jugador.puntos == 2){
-			for (Turbo turbo : turbos) turbo.update();
-			if (temporizadorNuevoEnemigo.suena()) enemigos.add(new Alien());
+		if (temporizadorNuevoEnemigo2.suena()) enemigos2.add(new Alien_2());
+		for (Alien_2 enemigo2 : enemigos2) enemigo2.update();
 
-			for (Turbo turbo : turbos) {
-				for (Disparo disparo : jugador.disparos) {
-
-					if (Utils.solapan(disparo.x, disparo.y, disparo.w, disparo.h, turbo.x, turbo.y, turbo.w, turbo.h)) {
-						disparosAEliminar.add(disparo);
-						turbosaeliminar.add(turbo);
+		for (Alien_2 enemigo2 : enemigos2) {
+			for (Disparo disparo : jugador.disparos) {
+				if (Utils.solapan(disparo.x, disparo.y, disparo.w, disparo.h, enemigo2.x, enemigo2.y, enemigo2.w, enemigo2.h)) {
+					disparosAEliminar.add(disparo);
+					enemigo2.morir();
+					if (enemigo2.vidas == 0){
+						enemigosAEliminar2.add(enemigo2);
 						jugador.puntos++;
-
+					}
+					if (enemigo2.vidas <= 1){
 						Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("impacto_disparo.mp3", Files.FileType.Internal));
 						music.setVolume(volume);
 						music.play();
-						break;
 					}
+					break;
 				}
-
-				if (!gameover && !jugador.muerto && Utils.solapan(turbo.x, turbo.y, turbo.w, turbo.h, jugador.x, jugador.y, jugador.w, jugador.h)) {
-					jugador.morir();
-					Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("impacto_nave.mp3", Files.FileType.Internal));
-					music.setVolume(volume);
-					music.play();
-					if (jugador.vidas == 0){
-						gameover = true;
-					}
-				}
-
-				if (jugador.puntos >= 10){
-					temporizadorNuevoEnemigo.frecuencia = 57;
-				}
-
-				if (turbo.y < -turbo.w) turbosaeliminar.add(turbo);
 			}
 
+			if (!gameover && !jugador.muerto && Utils.solapan(enemigo2.x, enemigo2.y, enemigo2.w, enemigo2.h, jugador.x, jugador.y, jugador.w, jugador.h)) {
+				jugador.morir();
+				enemigo2.morir();
+				Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("impacto_nave.mp3", Files.FileType.Internal));
+				music.setVolume(volume);
+				music.play();
+				if (enemigo2.vidas == 0){
+					enemigosAEliminar2.add(enemigo2);
+				}
+				if (jugador.vidas == 0){
+					gameover = true;
+				}
+			}
+
+			if (enemigo2.y < -enemigo2.w) enemigosAEliminar2.add(enemigo2);
 		}
 
 		for (Disparo disparo : jugador.disparos)
@@ -147,6 +149,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		for (Disparo disparo : disparosAEliminar) jugador.disparos.remove(disparo);
 		for (Alien enemigo : enemigosAEliminar) enemigos.remove(enemigo);
+		for (Alien_2 enemigo2 : enemigosAEliminar2) enemigos2.remove(enemigo2);
+		enemigosAEliminar2.clear();
 		disparosAEliminar.clear();
 		enemigosAEliminar.clear();
 
@@ -173,8 +177,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		fondo.render(batch);
 		jugador.render(batch);
 		emoticonos.render(batch);
-		for (Turbo turbo : turbos) turbo.render(batch);
 		for (Alien enemigo : enemigos) enemigo.render(batch);  //
+		for (Alien_2 enemigo2 : enemigos2) enemigo2.render(batch);
 		font.draw(batch, "" + jugador.vidas, 590, 440);
 		font.draw(batch, "" + jugador.puntos, 90, 440);
 

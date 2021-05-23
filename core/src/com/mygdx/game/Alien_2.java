@@ -3,16 +3,18 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Turbo {
-    Texture texture = new Texture("turbo.png");
+public class Alien_2 {
+    Texture texture = new Texture("alien2.png");
     float x, y, w, h, vx, vy;
+    int vidas = 2;
+    boolean muerto = false;
     Temporizador cambioVelocidad = new Temporizador(60);
 
-    Turbo() {
+    Alien_2() {
         x = Utils.random.nextInt(640);
         y = 480;
-        w = 64;
-        h = 48;
+        w = 80;
+        h = 100;
         vx = -2;
         vy = 0;
     }
@@ -31,6 +33,15 @@ public class Turbo {
     }
 
     void render(SpriteBatch batch) {
+        if (vidas == 0) {
+            muerto = true;
+        } else {
         batch.draw(texture, x, y, w, h);
+        }
+    }
+
+    public void morir() {
+        vidas--;
+        muerto = true;
     }
 }
